@@ -8,15 +8,16 @@
 using std::map;
 using std::vector;
 using std::this_thread::sleep_for;
+using LinuxParser::CPUStates;
 
 constexpr int TIME_TO_SLEEP = 200; 
 
-void Processer::SetCPUSTATES(){
+void Processor::SetCPUSTATES(){
     cpustates_ = LinuxParser::CpuStates(); 
 }
 
 
-vector<map<CPUStates, double>> Processor::GetCPUSTATES() const {return cpustate_;}
+vector<map<CPUStates, double>> Processor::GetCPUSTATES() const {return cpustates_;}
 
 
 // TODO: Return the aggregate CPU utilization
@@ -34,7 +35,7 @@ float Processor::Utilization() {
         cpu_sum += cpustates[0][(CPUStates)i];
         cpu_sum_delta += cpustates_delta[0][(CPUStates)i];
     }
-    double loadavg = ((cpu_sum-cpustates[0][(CPUStates)3])-(cpu_sum_delta-cpustates_delta[0][(CPUStates)3]))/(cpu_sum-cpu_delta_sum);
+    double loadavg = ((cpu_sum-cpustates[0][(CPUStates)3])-(cpu_sum_delta-cpustates_delta[0][(CPUStates)3]))/(cpu_sum-cpu_sum_delta);
     return loadavg;
     }
 
