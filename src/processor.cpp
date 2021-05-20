@@ -31,11 +31,13 @@ float Processor::Utilization() {
     sleep_for(std::chrono::milliseconds(TIME_TO_SLEEP));
     SetCPUSTATES();
     cpustates_delta = GetCPUSTATES();
-    for(int i=0; i<7; ++i){
+    for(int i=0; i<8; ++i){
         cpu_sum += cpustates[0][(CPUStates)i];
         cpu_sum_delta += cpustates_delta[0][(CPUStates)i];
     }
-    double loadavg = ((cpu_sum-cpustates[0][(CPUStates)3])-(cpu_sum_delta-cpustates_delta[0][(CPUStates)3]))/(cpu_sum-cpu_sum_delta);
+    double totald = cpu_sum_delta - cpu_sum; 
+    double idled = (cpustates_delta[0][(CPUStates)3]+cpustates_delta[0][(CPUStates)4])-(cpustates[0][(CPUStates)3]+cpustates[0][(CPUStates)4]);
+    double loadavg = (totald-idled)/totald;
     return loadavg;
     }
 
