@@ -96,8 +96,29 @@ std::vector<map<LinuxParser::CPUStates, double>> LinuxParser::CpuStates(){
 
 
 // TODO: Read and return the system memory utilization
-float LinuxParser::MemoryUtilization() { return 0.0; }
-
+float LinuxParser::MemoryUtilization() {
+    string line;
+    string key;
+    float value;
+    string kb;
+    std::ifstream filestream(kProcDirectory+kMeminfoFilename);
+    if(filestream.is_open()){
+        while(std::getline(filestream, line)){
+            std::replace(line.begin(),line.end(),": ", " ");
+            std::istringstream linestream(line);
+            while(linestream>>key>>value>>kb){
+                if(key=="MemTotal"){
+                    float memtotal = value;
+                }
+                if(key=="MemFree"){
+                    float memfree = value;
+                }
+            }
+        }
+    }
+    float loadavg = (mentotal-memfree)/memtotal;
+    return loadavg;
+ }
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() { return 0; }
 
