@@ -69,22 +69,23 @@ vector<int> LinuxParser::Pids() {
 }
 
 // TODO: Custerm defined function to get the CPUs state
-std::vector<map<CPUState, double>> LinuxParser::CpuStates(){
+std::vector<map<LinuxParser::CPUStates, double>> LinuxParser::CpuStates(){
     string line;
     string str_cpu;
     size_t found;
-    map<CPUState, double> state;
-    std::vector<map<CPUState, double>> cpustates;
+    map<LinuxParser::CPUStates, double> state;
+    std::vector<map<LinuxParser::CPUStates, double>> cpustates;
     std::ifstream filestream(kProcDirectory+kStatFilename);
     if(filestream.is_open()){
         while(std::getline(filestream, line)){
             found=line.find("cpu");
             if(found!=string::npos){
-                line>>str_cpu;
+                std::istringstream linestream(line);
+                linestream>>str_cpu;
                 for(int i=0; i<10; i++){
                     int val;
-                    line>>val;
-                    state[(CPUState)i]=val;
+                    linestream>>val;
+                    state[(LinuxParser::CPUStates)i]=val;
                 }
                 cpustates.push_back(state);
             }

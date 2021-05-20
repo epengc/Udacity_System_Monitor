@@ -4,6 +4,8 @@
 #include <fstream>
 #include <regex>
 #include <string>
+#include <map>
+using std::map;
 
 namespace LinuxParser {
 // Paths
