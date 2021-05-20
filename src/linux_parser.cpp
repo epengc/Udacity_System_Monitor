@@ -10,6 +10,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 using std::size_t;
+using std::map;
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -67,6 +68,32 @@ vector<int> LinuxParser::Pids() {
   return pids;
 }
 
+// TODO: Custerm defined function to get the CPUs state
+std::vector<map<CPUState, double>> LinuxParser::CpuStates(){
+    string line;
+    string str_cpu;
+    size_t found;
+    map<CPUState, double> state;
+    std::vector<map<CPUState, double>> cpustates;
+    std::ifstream filestream(kProcDirectory+kStatFilename);
+    if(filestream.is_open()){
+        while(std::getline(filestream, line)){
+            found=line.find("cpu");
+            if(found!=string::npos){
+                line>>str_cpu;
+                for(int i=0; i<10; i++){
+                    int val;
+                    line>>val;
+                    state[(CPUState)i]=val;
+                }
+                cpustates.push_back(state);
+            }
+        }
+    }
+    return cpustates;
+}
+
+
 // TODO: Read and return the system memory utilization
 float LinuxParser::MemoryUtilization() { return 0.0; }
 
@@ -87,24 +114,7 @@ long LinuxParser::ActiveJiffies() { return 0; }
 long LinuxParser::IdleJiffies() { return 0; }
 
 // TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() {
-//  to carry the information for whole CPU kernels
-    vector<string> cpu_list;
-    string line;
-    string str_cpu = "cpu";
-    size_t found;
-    std::ifstream filestream(kProcDirectory+kStatFilename);
-    if(filestream.is_open()){
-        while(std::getline(filestream, line)){
-            found=line.find(str_cpu);
-            if(found!=string::npos){
-                cpu_list.push_back(line);
-            }
-        }
-    }
-    return cpu_list;
-    }
-
+vector<string> LinuxParser::CpuUtilization() {return {};}
      
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { return 0; }
