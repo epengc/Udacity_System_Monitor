@@ -11,6 +11,7 @@ using std::to_string;
 using std::vector;
 using std::size_t;
 using std::map;
+using std::stoi;
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -99,7 +100,7 @@ std::vector<map<LinuxParser::CPUStates, double>> LinuxParser::CpuStates(){
 float LinuxParser::MemoryUtilization() {
     string line;
     string key;
-    float value;
+    string value;
     string kb;
     float memtotal;
     float memfree;
@@ -109,10 +110,10 @@ float LinuxParser::MemoryUtilization() {
             std::istringstream linestream(line);
             while(linestream>>key>>value>>kb){
                 if(key=="MemTotal:"){
-                    memtotal = value;
+                    memtotal = stof(value);
                 }
                 if(key=="MemFree:"){
-                    memfree = value;
+                    memfree = stof(value);
                 }
             }
         }
