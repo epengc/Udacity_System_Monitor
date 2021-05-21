@@ -101,24 +101,27 @@ float LinuxParser::MemoryUtilization() {
     string key;
     float value;
     string kb;
+    float memtotal;
+    float memfree;
     std::ifstream filestream(kProcDirectory+kMeminfoFilename);
     if(filestream.is_open()){
         while(std::getline(filestream, line)){
-            std::replace(line.begin(),line.end(),": ", " ");
             std::istringstream linestream(line);
             while(linestream>>key>>value>>kb){
-                if(key=="MemTotal"){
-                    float memtotal = value;
+                if(key=="MemTotal:"){
+                    memtotal = value;
                 }
-                if(key=="MemFree"){
-                    float memfree = value;
+                if(key=="MemFree:"){
+                    memfree = value;
                 }
             }
         }
     }
-    float loadavg = (mentotal-memfree)/memtotal;
+    float loadavg = (memtotal-memfree)/memtotal;
     return loadavg;
  }
+
+
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() { return 0; }
 
