@@ -84,9 +84,9 @@ std::vector<map<LinuxParser::CPUStates, double>> LinuxParser::CpuStates(){
                 std::istringstream linestream(line);
                 linestream>>str_cpu;
                 for(int i=0; i<10; i++){
-                    int val;
+                    string val;
                     linestream>>val;
-                    state[(LinuxParser::CPUStates)i]=val;
+                    state[(LinuxParser::CPUStates)i]=stoi(val);
                 }
                 cpustates.push_back(state);
             }
@@ -102,8 +102,8 @@ float LinuxParser::MemoryUtilization() {
     string key;
     string value;
     string kb;
-    float memtotal;
-    float memfree;
+    float memtotal=1;
+    float memfree=1;
     std::ifstream filestream(kProcDirectory+kMeminfoFilename);
     if(filestream.is_open()){
         while(std::getline(filestream, line)){
@@ -146,14 +146,14 @@ vector<string> LinuxParser::CpuUtilization() {return {};}
 int LinuxParser::TotalProcesses() {
     string line;
     string key;
-    string value;
+    string val;
     std::ifstream filestream(kProcDirectory+kStatFilename);
     if(filestream.is_open()){
         while(std::getline(filestream, line)){
             std::istringstream linestream(line);
-            while(linestream>>key>>value){
+            while(linestream>>key>>val){
                 if(key=="processes"){
-                    return stoi(value);
+                    return stoi(val);
                 }
             }
         }
@@ -163,7 +163,17 @@ int LinuxParser::TotalProcesses() {
 }
 
 // TODO: Read and return the number of running processes
-int LinuxParser::RunningProcesses() { return 0; }
+int LinuxParser::RunningProcesses() {
+    string line;
+    string key;
+    string val;
+    std::ifstream filestream(kProcDirectory+kStatFilename);
+    if(filestream.is_open()){
+        while(std::getline(filestream, line)){
+
+        }
+    }
+}
 
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
