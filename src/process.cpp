@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-
+#include "linux_parser.h"
 #include "process.h"
 
 using std::string;
@@ -11,7 +11,7 @@ using std::to_string;
 using std::vector;
 
 // TODO: Return this process's ID
-void Process::Process(int pid){
+Process::Process(int pid){
     Pid(pid);
     User(LinuxParser::User(pid));
     Command(LinuxParser::Command(pid));
@@ -20,7 +20,8 @@ void Process::Process(int pid){
     UpTime(LinuxParser::UpTime(pid));
 }
 
-void Process:Pid(int pid){ this->pid_=pid; }
+void Process::Pid(int pid){ this->pid_=pid; }
+
 int Process::Pid() const { return this->pid_; }
 
 // TODO: Return this process's CPU utilization
@@ -48,12 +49,12 @@ void Process::User(string user){ this->user_=user; }
 string Process::User() const { return this->user_; }
 
 // TODO: Return the age of this process (in seconds)
-void Process::UpTime(long int uptime){ this->uptime_=uptime; }
+void Process::UpTime(long int uptime) { this->uptime_=uptime; }
 
-long int Process::UpTime() { return this->uptime_; }
+long int Process::UpTime() const { return this->uptime_; }
 
 // TODO: Overload the "less than" comparison operator for Process objects
-bool Process::operator<(Process const& a) const { return CpuUtilization()<a.CpuUtilization(); }
+bool Process::operator>(Process const& a) const { return CpuUtilization()>a.CpuUtilization();}
 
 
 

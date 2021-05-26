@@ -20,7 +20,7 @@ float Processor::Utilization() {
     long idlJif = LinuxParser::IdleJiffies();
     sleep_for(std::chrono::milliseconds(TIME_TO_SLEEP));
     actJif -= LinuxParser::ActiveJiffies();
-    idlJif -= LinuxParser::IdleJiffiles();
+    idlJif -= LinuxParser::IdleJiffies();
     loadavg = static_cast<float>(actJif)/(actJif+idlJif);
     return loadavg;
     }

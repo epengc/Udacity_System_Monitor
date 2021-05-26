@@ -13,22 +13,22 @@ class Process {
   void Pid(int pid);
   int Pid()const;                               // TODO: See src/process.cpp
 
-  void User(string user);
+  void User(std::string user);
   std::string User()const;                      // TODO: See src/process.cpp
 
-  void Command(string command);
+  void Command(std::string command);
   std::string Command()const;                   // TODO: See src/process.cpp
 
   void CpuUtilization(long actJif, long sysJif);
   float CpuUtilization()const;                  // TODO: See src/process.cpp
 
-  void Ram(string ram);
+  void Ram(std::string ram);
   std::string Ram()const;                       // TODO: See src/process.cpp
 
   void UpTime(long int uptime);
   long int UpTime()const;                       // TODO: See src/process.cpp
 
-  bool operator<(Process const& a) const;  // TODO: See src/process.cpp
+  bool operator>(Process const& a) const;  // TODO: See src/process.cpp
 
   // TODO: Declare any necessary private members
  private:

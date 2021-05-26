@@ -21,16 +21,16 @@ Processor& System::Cpu() { return cpu_; }
 vector<Process>& System::Processes() { 
     vector<int>pids{LinuxParser::Pids()};
     set<int> ext_pids;
-    for(Process const& process:process_){
-        ext_pids.insert(process);
+    for(Process const& process:processes_){
+        ext_pids.insert(process.Pid());
     }
-    for(int pid:Pids){
+    for(int pid:pids){
         if (ext_pids.find(pid)==ext_pids.end()){
-            process_.emplace_back(pid);
+            processes_.emplace_back(pid);
         }
     }
-    std::sort(process_.begin(), process_.end(), std::greater<Process>());
-    return process_;
+    std::sort(processes_.begin(), processes_.end(), std::greater<Process>());
+    return processes_;
 }
 
 // TODO: Return the system's kernel identifier (string)

@@ -153,10 +153,11 @@ long LinuxParser::ActiveJiffies(int pid) {
 long LinuxParser::ActiveJiffies() {
     vector<string> cpu_table = LinuxParser::CpuUtilization();
     long int actJif=0;
-    for(int i=0; i<8; i++)i{
-        actJif += stol(pu_table[0]);
+    for(int i=0; i<8; i++){
+        actJif += stol(cpu_table[0]);
     }
     return actJif;
+}
     
 
 // TODO: Read and return the number of idle jiffies for the system
@@ -236,7 +237,7 @@ string LinuxParser::Command(int pid) {
     string value;
     std::ifstream filestream(kProcDirectory+to_string(pid)+kCmdlineFilename);
     if (filestream.is_open()){
-        std::getline(filestream, line));
+        std::getline(filestream, line);
         return line;
         }
     return ""; 
@@ -288,7 +289,7 @@ string LinuxParser::User(int pid) {
     string line;
     string name;
     string value;
-    std::ifstream filestream(kPasswordPath){
+    std::ifstream filestream(kPasswordPath);
         if(filestream.is_open()){
             std::getline(filestream, line);
             name = "x:"+Uid(pid);
@@ -296,7 +297,6 @@ string LinuxParser::User(int pid) {
                 return line.substr(0,line.find(name)-1);
             }
         }
-    }
     return string("0");
 }
 
@@ -322,7 +322,7 @@ long LinuxParser::UpTime(int pid) {
             cout ++;
         }
     }
-    return 0;
+    return uptime;
 }
 
 
