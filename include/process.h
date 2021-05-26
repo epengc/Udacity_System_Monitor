@@ -8,23 +8,24 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
+  Process(int pid);
 
-  void Pid();
+  void Pid(int pid);
   int Pid()const;                               // TODO: See src/process.cpp
 
-  void User();
+  void User(string user);
   std::string User()const;                      // TODO: See src/process.cpp
 
-  void Command();
+  void Command(string command);
   std::string Command()const;                   // TODO: See src/process.cpp
 
-  void CpuUtilization();
+  void CpuUtilization(long actJif, long sysJif);
   float CpuUtilization()const;                  // TODO: See src/process.cpp
 
-  void Ram();
+  void Ram(string ram);
   std::string Ram()const;                       // TODO: See src/process.cpp
 
-  void UpTime();
+  void UpTime(long int uptime);
   long int UpTime()const;                       // TODO: See src/process.cpp
 
   bool operator<(Process const& a) const;  // TODO: See src/process.cpp
@@ -37,6 +38,8 @@ class Process {
   float cpuutilization_;
   std::string ram_;
   long int uptime_;
+  long actJif_prev_{0};
+  long sysJif_prev_{0};
 };
 
 #endif
