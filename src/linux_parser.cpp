@@ -246,17 +246,14 @@ string LinuxParser::Command(int pid) {
 
 // TODO: Read and return the memory used by a process
 string LinuxParser::Ram(int pid) { 
-    string line;
     string name;
     string value;
     std::ifstream filestream(kProcDirectory+to_string(pid)+kStatusFilename);
     if (filestream.is_open()){
-        std::getline(filestream, line);
-        std::istringstream linestream(line);
-        while(linestream>>name){
+        while(filestream>>name){
             if (name=="VmSize:"){
-                linestream>>value;
-                return to_string(stof(value)/1024);
+                filestream>>value;
+                return to_string(stoi(value)/1024);
             }
         }
     
@@ -302,24 +299,18 @@ string LinuxParser::User(int pid) {
 
 
 // TODO: Read and return the uptime of a process
-long LinuxParser::UpTime(int pid) {
-    string line;
+long int LinuxParser::UpTime(int pid) {
     string item;
     long int uptime{0};
     std::ifstream filestream(kProcDirectory+to_string(pid)+kStatFilename);
     if(filestream.is_open()){
-        std::getline(filestream, line);
-        std::istringstream linestream(line);
-        int cout = 0;
-        while(linestream>>item){
-            if (cout==13){
+        for(int i=0; filestream>>item;++i)
+            if (i==13){
                 long int uptime{stol(item)};
                 // Amount of time that this process has been scheduled in user mode,
                 // measured in clock ticks :devided by sysconf(_SC_CLK_TCKSC_CLK_TCK).
                 uptime /= sysconf(_SC_CLK_TCK);
                 return uptime;
-            }
-            cout ++;
         }
     }
     return uptime;
